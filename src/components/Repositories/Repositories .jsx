@@ -30,8 +30,9 @@ const Repositories = () => {
     }, [username]);
 
     return (
-        <div>
-            <h1>Репозитории пользователя {username}</h1>
+        <div className="rapNav">
+         <div >
+         <h1>Репозитории пользователя {username}</h1>
             <nav>
                 <ul>
                     <li>
@@ -46,6 +47,7 @@ const Repositories = () => {
                     </li>
                 </ul>
             </nav>
+         </div>
 
             {isLoading ? (
                 <p>Загрузка...</p>
