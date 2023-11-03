@@ -1,45 +1,20 @@
 import React from 'react';
-import { BrowserRouter as Routes, Route, Link } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 
-import UserProfile from './components/UserProfile/UserProfile '; // Ваш компонент для профиля пользователя
-import Repositories from './components/Repositories/Repositories '; // Ваш компонент для репозиториев
-import OtherUsers from './components/OtherUsers/OtherUsers'; // Ваш компонент для поиска других пользователей
+import UserProfile from './components/UserProfile/UserProfile ';
+import Repositories from './components/Repositories/Repositories ';
+import OtherUsers from './components/OtherUsers/OtherUsers';
+import Layout from './components/Layout/Layout';
 
 const App = () => {
   return (
     <div>
+      <Layout />
       <Routes>
-        <div>
-          <header>
-            <h1>GitHub Dashboard</h1>
-            <nav>
-              <ul>
-                <li>
-                  <Link to="/">Профиль</Link>
-                </li>
-                <li>
-                  <Link to="/repositories">Репозитории</Link>
-                </li>
-                <li>
-                  <Link to="/other-users">Другие пользователи</Link>
-                </li>
-              </ul>
-            </nav>
-          </header>
-          <main>
+        <Route path="repositories" element={<Repositories />} />
+        <Route path="other-users" element={<OtherUsers />} />
+        <Route index element={<UserProfile />} />
 
-            <Route path="/repositories">
-              <Repositories />
-            </Route>
-            <Route path="/other-users">
-              <OtherUsers />
-            </Route>
-            <Route path="/">
-              <UserProfile />
-            </Route>
-
-          </main>
-        </div>
       </Routes>
     </div>
   );

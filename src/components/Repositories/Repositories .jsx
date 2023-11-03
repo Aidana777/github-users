@@ -1,54 +1,88 @@
 import React, { useState, useEffect } from 'react';
+import { useParams, NavLink, Route, Routes } from 'react-router-dom';
 import axios from 'axios';
 
 const Repositories = () => {
-  const [publicRepos, setPublicRepos] = useState([]);
-  const [privateRepos, setPrivateRepos] = useState([]);
-  const [activeTab, setActiveTab] = useState('public');
+    const { username } = useParams();
 
-  useEffect(() => {
-    // Загрузка публичных репозиториев при монтировании компонента
-    axios.get('https://api.github.com/user/repos?visibility=public')
-      .then((response) => {
-        setPublicRepos(response.data);
-      })
-      .catch((error) => {
-        console.error('Ошибка при запросе к GitHub API:', error);
-      });
+    const [publicRepos, setPublicRepos] = useState([]);
+    const [privateRepos, setPrivateRepos] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
 
-    // Загрузка приватных репозиториев
-    axios.get('https://api.github.com/user/repos?visibility=private')
-      .then((response) => {
-        setPrivateRepos(response.data);
-      })
-      .catch((error) => {
-        console.error('Ошибка при запросе к GitHub API:', error);
-      });
-  }, []);
+    useEffect(() => {
+        axios.get(`https://api.github.com/users/${username}/repos?visibility=public`)
+            .then((response) => {
+                setPublicRepos(response.data);
+            })
+            .catch((error) => {
+                console.error('Error while fetching public repositories:', error);
+            });
 
-  const handleTabChange = (tab) => {
-    setActiveTab(tab);
-  };
+        axios.get(`https://api.github.com/users/${username}/repos?visibility=private`)
+            .then((response) => {
+                setPrivateRepos(response.data);
+                setIsLoading(false);
+            })
+            .catch((error) => {
+                console.error('Error while fetching private repositories:', error);
+                setIsLoading(false);
+            });
+    }, [username]);
 
-  const renderRepos = activeTab === 'public' ? publicRepos : privateRepos;
+    return (
+        <div>
+            <h1>Репозитории пользователя {username}</h1>
+            <nav>
+                <ul>
+                    <li>
+                        <NavLink to="public" activeClassName="active">
+                            Публичные репозитории
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink to="private" activeClassName="active">
+                            Приватные репозитории
+                        </NavLink>
+                    </li>
+                </ul>
+            </nav>
 
-  return (
-    <div>
-      <h1>Репозитории</h1>
-      <div className="tabs">
-        <button onClick={() => handleTabChange('public')} className={activeTab === 'public' ? 'active' : ''}>Публичные</button>
-        <button onClick={() => handleTabChange('private')} className={activeTab === 'private' ? 'active' : ''}>Приватные</button>
-      </div>
-      <ul>
-        {renderRepos.map((repo) => (
-          <li key={repo.id}>
-            <p>Название: <a href={repo.html_url} target="_blank" rel="noopener noreferrer">{repo.name}</a></p>
-            <p>Владелец: <a href={repo.owner.html_url} target="_blank" rel="noopener noreferrer">{repo.owner.login}</a></p>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}
+            {isLoading ? (
+                <p>Загрузка...</p>
+            ) : (
+                <Routes>
+                    <Route path="public" element={(
+                        <div>
+                            <h2>Публичные репозитории</h2>
+                            <ul>
+                                {publicRepos.map((repo) => (
+                                    <li key={repo.id}>
+                                        <a href={repo.html_url} target="_blank" rel="noopener noreferrer">
+                                            {repo.name}
+                                        </a>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    )} />
+                    <Route path="private" element={(
+                        <div>
+                            <h2>Приватные репозитории</h2>
+                            <ul>
+                                {privateRepos.map((repo) => (
+                                    <li key={repo.id}>
+                                        <a href={repo.html_url} target="_blank" rel="noopener noreferrer">
+                                            {repo.name}
+                                        </a>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    )} />
+                </Routes>
+            )}
+        </div>
+    );
+};
 
 export default Repositories;

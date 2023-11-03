@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 const UserProfile = () => {
-    const [username, setUsername] = useState('tim'); // Начальное значение имени пользователя
+    const [username, setUsername] = useState(''); // Начальное значение имени пользователя
     const [userData, setUserData] = useState(null);
     const [editableData, setEditableData] = useState({
         name: '',
@@ -28,7 +28,6 @@ const UserProfile = () => {
     };
 
     useEffect(() => {
-        // Запрашивать данные только если имя пользователя не пустое
         if (username) {
             fetchUserData();
         }
@@ -42,56 +41,61 @@ const UserProfile = () => {
     };
 
     const saveEditableData = () => {
-        // Ваш код для отправки изменений на сервер должен быть добавлен здесь
-        // В этом примере, мы просто выводим в консоль, но вам нужно выполнить реальный запрос на сервер.
         console.log('Сохранение изменений:', editableData);
     };
 
     return (
-        <div>
-            <h1>Профиль пользователя</h1>
+        <div className="user-profile-container">
+        <h1 className="profile-header">Профиль пользователя</h1>
+        <div className="search-input">
             <input
                 type="text"
                 placeholder="Имя пользователя"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
             />
-            <button onClick={fetchUserData}>Получить профиль</button>
-            {userData ? (
-                <div>
+            <button className="fetch-button" onClick={fetchUserData}>Получить профиль</button>
+        </div>
+        {userData ? (
+            <div className="profile-details">
+                <div className="avatar">
                     <img src={userData.avatar_url} alt={`${userData.login}'s avatar`} />
-                    <p>Имя: {editableData.name}</p>
+                </div>
+                <div className="info">
+                    <p className="info-item">Имя: {editableData.name}</p>
                     <input
                         type="text"
                         value={editableData.name}
                         onChange={(e) => handleFieldChange('name', e.target.value)}
                     />
-                    <p>Логин: {userData.login}</p>
-                    <p>Имейл: {userData.email || 'Нет данных'}</p>
-                    <p>Компания: {editableData.company}</p>
+                    <p className="info-item">Логин: {userData.login}</p>
+                    <p className="info-item">Имейл: {userData.email || 'Нет данных'}</p>
+                    <p className="info-item">Компания: {editableData.company}</p>
                     <input
                         type="text"
                         value={editableData.company}
                         onChange={(e) => handleFieldChange('company', e.target.value)}
                     />
-                    <p>Местоположение: {editableData.location}</p>
+                    <p className="info-item">Местоположение: {editableData.location}</p>
                     <input
                         type="text"
                         value={editableData.location}
                         onChange={(e) => handleFieldChange('location', e.target.value)}
                     />
-                    <p>Описание профиля (био): {editableData.bio}</p>
+                    <p className="info-item">Описание профиля (био):</p>
                     <textarea
                         value={editableData.bio}
                         onChange={(e) => handleFieldChange('bio', e.target.value)}
                     />
-                    <p>Ссылка на профиль: <a href={userData.html_url} target="_blank" rel="noopener noreferrer">{userData.html_url}</a></p>
-                    <button onClick={saveEditableData}>Сохранить изменения</button>
+                    <p className="info-item">Ссылка на профиль: <a href={userData.html_url} target="_blank" rel="noopener noreferrer">{userData.html_url}</a></p>
+                    <button className="save-button" onClick={saveEditableData}>Сохранить изменения</button>
                 </div>
-            ) : (
-                <p>Введите имя пользователя и нажмите "Получить профиль".</p>
-            )}
-        </div>
+            </div>
+        ) : (
+            <p className="no-profile-message">Введите имя пользователя и нажмите "Получить профиль".</p>
+        )}
+    </div>
+    
     );
 }
 
