@@ -23,7 +23,7 @@ const Header = () => {
       <nav className={`header-nav ${isBurgerMenuOpen ? 'open' : ''}`}>
         <ul className="header-nav-list">
           <li className="header-nav-item">
-            <Link to="/" className="header-nav-link">
+            <Link to="/profile" className="header-nav-link">
               Профиль
             </Link>
           </li>

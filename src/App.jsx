@@ -16,7 +16,6 @@ const App = () => {
         <Route path="other-users" element={<OtherUsers />} />
         <Route index element={<Login />} />
         <Route path="profile" element={<UserProfile />} />
-        <Route element={<UserProfile />} />
       </Routes>
     </div>
   );
