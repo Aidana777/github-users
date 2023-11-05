@@ -57,7 +57,7 @@ const Repositories = () => {
 
   return (
     <div className="repositories-container">
-      <h1>Репозитории пользователя {username || inputUsername}</h1>
+      <h1 className='repositoriesTitle'>Репозитории пользователя {username || inputUsername}</h1>
       <div>
         <input
           type="text"
@@ -73,7 +73,7 @@ const Repositories = () => {
       ) : user ? (
         <div>
           <h2>{user.name}</h2>
-          <img src={user.avatar_url} alt="Аватар" />
+          <img className='repositories-containerimg' src={user.avatar_url} alt="Аватар" />
           <p>Публичные репозитории: {user.public_repos}</p>
           <nav>
             <ul>
@@ -101,14 +101,14 @@ const Repositories = () => {
               <ul>
                 {publicRepos.map((repo) => (
                   <li key={repo.id}>
-                    <a href={repo.html_url} target="_blank" rel="noopener noreferrer">
+                    <a className='repLink' href={repo.html_url} target="_blank" rel="noopener noreferrer">
                       {repo.name}
                     </a>
                   </li>
                 ))}
               </ul>
             ) : (
-              <p>Нет публичных репозиториев.</p>
+              <p className='repositories-containertext '>Нет публичных репозиториев.</p>
             )}
           </div>
         )} />
@@ -126,7 +126,7 @@ const Repositories = () => {
                 ))}
               </ul>
             ) : (
-              <p>Нет приватных репозиториев.</p>
+              <p className='repositories-containertext '>Нет приватных репозиториев.</p>
             )}
           </div>
         )} />

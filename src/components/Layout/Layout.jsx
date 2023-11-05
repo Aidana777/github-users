@@ -9,6 +9,18 @@ const Header = () => {
     setIsBurgerMenuOpen(!isBurgerMenuOpen);
   };
 
+  // Создайте массив элементов навигации
+  const navigationItems = [
+    { to: '/profile', text: 'Профиль' },
+    { to: '/repositories', text: 'Репозитории' },
+    { to: '/other-users', text: 'Другие пользователи' },
+  ];
+
+  // Создайте массив элементов burger-line
+  const burgerLines = Array.from({ length: 3 }, (_, index) => (
+    <div key={index} className="burger-line"></div>
+  ));
+
   return (
     <header className="header">
       <h1 className="header-title">GitHub Dashboard</h1>
@@ -16,27 +28,17 @@ const Header = () => {
         className={`burger-menu ${isBurgerMenuOpen ? 'open' : ''}`}
         onClick={toggleBurgerMenu}
       >
-        <div className="burger-line"></div>
-        <div className="burger-line"></div>
-        <div className="burger-line"></div>
+        {burgerLines}
       </div>
       <nav className={`header-nav ${isBurgerMenuOpen ? 'open' : ''}`}>
         <ul className="header-nav-list">
-          <li className="header-nav-item">
-            <Link to="/profile" className="header-nav-link">
-              Профиль
-            </Link>
-          </li>
-          <li className="header-nav-item">
-            <Link to="/repositories" className="header-nav-link">
-              Репозитории
-            </Link>
-          </li>
-          <li className="header-nav-item">
-            <Link to="/other-users" className="header-nav-link">
-              Другие пользователи
-            </Link>
-          </li>
+          {navigationItems.map((item, index) => (
+            <li key={index} className="header-nav-item">
+              <Link to={item.to} className="header-nav-link">
+                {item.text}
+              </Link>
+            </li>
+          ))}
         </ul>
       </nav>
     </header>
