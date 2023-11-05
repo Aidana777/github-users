@@ -18,8 +18,8 @@ passport.use(
   new GitHubStrategy(
     {
       clientID: `8e3fb8a3e6a9fd276f4c`,
-      clientSecret: `eda401925570dd5c2747ce9a04ad78999a1dc860`,
-      callbackURL: `http://localhost:3000/`,
+      clientSecret: `df951d41330b901f275c5424c413fc3dc02af535`,
+      callbackURL: `http://localhost:3000/auth/github/callback`,
     },
     (accessToken, refreshToken, profile, done) => {
       // Save user data and access token in the database or session
