@@ -1,0 +1,77 @@
+/* Repositories.css */
+
+.repositories-container {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background-color: #f5f5f5;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  max-width: 600px;
+  margin: 0 auto;
+  margin-top: 20px;
+}
+
+.repositories-container h1 {
+  color: #333;
+}
+
+.repositories-container img {
+  max-width: 100px;
+  border-radius: 50%;
+  margin-top: 20px;
+}
+
+.repositories-container p {
+  color: #555;
+}
+
+.repositories-container nav ul {
+  list-style: none;
+  padding: 0;
+}
+
+.repositories-container nav ul li {
+  display: inline;
+  margin-right: 20px;
+}
+
+.repositories-container a {
+  text-decoration: none;
+  color: #007bff;
+}
+
+.repositories-container a:hover {
+  text-decoration: underline;
+}
+
+/* Style for the active link */
+.repositories-container .active {
+  font-weight: bold;
+}
+
+/* Container for the repository list */
+.repositories-container .repo-list {
+  padding: 10px;
+}
+
+/* Style for the repository list */
+.repositories-container .repo-list ul {
+  list-style: none;
+  padding: 0;
+  text-align: left;
+}
+
+.repositories-container .repo-list ul li {
+  margin-bottom: 10px;
+}
+
+/* Style for the repository name */
+.repositories-container .repo-list a {
+  text-decoration: none;
+  color: #007bff;
+}
+
+.repositories-container .repo-list a:hover {
+  text-decoration: underline;
+}

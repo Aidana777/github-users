@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-
+import './otherUsers.css'
 const OtherUsers = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState([]);
@@ -15,7 +15,6 @@ const OtherUsers = () => {
         .then((response) => {
           setSearchResults(response.data.items);
           setTotalResults(response.data.total_count);
-          setSearchTerm(''); // Clear the search input
         })
         .catch((error) => {
           console.error('Error while fetching data from GitHub API:', error);

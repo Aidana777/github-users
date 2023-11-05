@@ -1,0 +1,174 @@
+.other-users-container {
+  background-color: #f4f4f4;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  max-width: 600px;
+  margin: 0 auto;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  margin-top: 50px;
+}
+
+.title {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.search-input {
+  padding: 10px;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin: 10px 0;
+}
+
+.search-results {
+  font-weight: bold;
+  color: #007bff;
+}
+
+.user-list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  gap: 10px;
+}
+
+.user-item {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.user-login {
+  font-weight: bold;
+}
+
+.view-repositories-button {
+  height: 40px;
+  /* background: linear-gradient(90deg, red, silver, red); */
+  background: linear-gradient(346deg, #4d00ff, #326466, #0045ff);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 0px 5px;
+  font-size: 0.8em;
+  cursor: pointer;
+}
+
+.selected-user-title {
+  font-size: 20px;
+  color: #333;
+  margin-top: 20px;
+}
+
+.repository-list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.repository-item {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.repository-name a {
+  text-decoration: none;
+  color: #007bff;
+}
+
+.repository-name a:hover {
+  text-decoration: underline;
+}
+
+.fetch-button {
+  background-color: #000;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.user-profile-container {
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  max-width: 400px;
+  margin: 0 auto;
+  margin-top: 100px;
+}
+
+.profile-header {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.search-input {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.fetch-button {
+  background-color: #000;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.avatar img {
+  max-width: 100%;
+  border-radius: 50%;
+}
+
+.info {
+  padding: 10px;
+}
+
+.info-item {
+  margin-top: 10px;
+  font-weight: bold;
+  color: #555;
+}
+
+input[type='text'],
+textarea {
+  width: 96%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin: 5px 0;
+}
+
+.save-button {
+  background-color: #000;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.no-profile-message {
+  font-style: italic;
+  color: #777;
+  margin-top: 20px;
+  text-align: center;
+}
+

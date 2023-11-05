@@ -1,90 +1,139 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, NavLink, Route, Routes } from 'react-router-dom';
 import axios from 'axios';
+import './Repositories.css';
 
 const Repositories = () => {
-    const { username } = useParams();
+  const { username } = useParams();
 
-    const [publicRepos, setPublicRepos] = useState([]);
-    const [privateRepos, setPrivateRepos] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
+  const [inputUsername, setInputUsername] = useState('');
+  const [user, setUser] = useState(null);
+  const [publicRepos, setPublicRepos] = useState([]);
+  const [privateRepos, setPrivateRepos] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-    useEffect(() => {
-        axios.get(`https://api.github.com/users/${username}/repos?visibility=public`)
-            .then((response) => {
-                setPublicRepos(response.data);
-            })
-            .catch((error) => {
-                console.error('Error while fetching public repositories:', error);
-            });
+  const fetchUserData = async (username) => {
+    try {
+      const userResponse = await axios.get(`https://api.github.com/users/${username}`);
+      setUser(userResponse.data);
+    } catch (error) {
+      console.error('Ошибка при получении информации о пользователе:', error);
+    }
+  };
 
-        axios.get(`https://api.github.com/users/${username}/repos?visibility=private`)
-            .then((response) => {
-                setPrivateRepos(response.data);
-                setIsLoading(false);
-            })
-            .catch((error) => {
-                console.error('Error while fetching private repositories:', error);
-                setIsLoading(false);
-            });
-    }, [username]);
+  const fetchUserRepos = async (username) => {
+    try {
+      const publicReposResponse = await axios.get(`https://api.github.com/users/${username}/repos?type=public`);
+      const privateReposResponse = await axios.get(`https://api.github.com/users/${username}/repos?type=private`);
 
-    return (
-        <div className="rapNav">
-         <div >
-         <h1>Репозитории пользователя {username}</h1>
-            <nav>
-                <ul>
-                    <li>
-                        <NavLink to="public" activeClassName="active">
-                            Публичные репозитории
-                        </NavLink>
-                    </li>
-                    <li>
-                        <NavLink to="private" activeClassName="active">
-                            Приватные репозитории
-                        </NavLink>
-                    </li>
-                </ul>
-            </nav>
-         </div>
+      setPublicRepos(publicReposResponse.data);
+      setPrivateRepos(privateReposResponse.data);
+      setIsLoading(false);
+    } catch (error) {
+      console.error('Ошибка при получении репозиториев:', error);
+      setIsLoading(false);
+    }
+  };
 
-            {isLoading ? (
-                <p>Загрузка...</p>
-            ) : (
-                <Routes>
-                    <Route path="public" element={(
-                        <div>
-                            <h2>Публичные репозитории</h2>
-                            <ul>
-                                {publicRepos.map((repo) => (
-                                    <li key={repo.id}>
-                                        <a href={repo.html_url} target="_blank" rel="noopener noreferrer">
-                                            {repo.name}
-                                        </a>
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-                    )} />
-                    <Route path="private" element={(
-                        <div>
-                            <h2>Приватные репозитории</h2>
-                            <ul>
-                                {privateRepos.map((repo) => (
-                                    <li key={repo.id}>
-                                        <a href={repo.html_url} target="_blank" rel="noopener noreferrer">
-                                            {repo.name}
-                                        </a>
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-                    )} />
-                </Routes>
-            )}
+  const handleSearch = () => {
+    if (inputUsername) {
+      fetchUserData(inputUsername);
+      fetchUserRepos(inputUsername);
+    }
+  };
+
+  const handleEnterKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      handleSearch();
+    }
+  };
+
+  useEffect(() => {
+    if (username) {
+      fetchUserData(username);
+      fetchUserRepos(username);
+    }
+  }, [username]);
+
+  return (
+    <div className="repositories-container">
+      <h1>Репозитории пользователя {username || inputUsername}</h1>
+      <div>
+        <input
+          type="text"
+          placeholder="Введите имя пользователя"
+          value={inputUsername}
+          onChange={(e) => setInputUsername(e.target.value)}
+          onKeyPress={handleEnterKeyPress}
+        />
+        <button onClick={handleSearch}>Найти</button>
+      </div>
+      {isLoading ? (
+        <p>Загрузка...</p>
+      ) : user ? (
+        <div>
+          <h2>{user.name}</h2>
+          <img src={user.avatar_url} alt="Аватар" />
+          <p>Публичные репозитории: {user.public_repos}</p>
+          <nav>
+            <ul>
+              <li>
+                <NavLink to="public" activeClassName="active">
+                  Публичные репозитории
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="private" activeClassName="active">
+                  Приватные репозитории
+                </NavLink>
+              </li>
+            </ul>
+          </nav>
         </div>
-    );
+      ) : (
+        <p>Пользователь не найден.</p>
+      )}
+      <Routes>
+        <Route path="public" element={(
+          <div>
+            <h2>Публичные репозитории</h2>
+            {publicRepos.length > 0 ? (
+              <ul>
+                {publicRepos.map((repo) => (
+                  <li key={repo.id}>
+                    <a href={repo.html_url} target="_blank" rel="noopener noreferrer">
+                      {repo.name}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p>Нет публичных репозиториев.</p>
+            )}
+          </div>
+        )} />
+        <Route path="private" element={(
+          <div>
+            <h2>Приватные репозитории</h2>
+            {privateRepos.length > 0 ? (
+              <ul>
+                {privateRepos.map((repo) => (
+                  <li key={repo.id}>
+                    <a href={repo.html_url} target="_blank" rel="noopener noreferrer">
+                      {repo.name}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p>Нет приватных репозиториев.</p>
+            )}
+          </div>
+        )} />
+      </Routes>
+    </div>
+  );
 };
 
 export default Repositories;
+
